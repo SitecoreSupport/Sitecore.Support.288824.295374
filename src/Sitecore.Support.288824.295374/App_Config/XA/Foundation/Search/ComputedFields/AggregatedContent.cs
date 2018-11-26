@@ -48,10 +48,14 @@
         return computeFieldValue;
       }
 
+      #region fix issue# 288824
+      /*
       if (!item.IsPageItem() && !IsPoi.Verify(item))
       {
         return null;
       }
+      */
+      #endregion
 
       ISet<Item> dataFolders = new HashSet<Item>();
       foreach (Item folder in new[] { Sitecore.DependencyInjection.ServiceLocator.ServiceProvider.GetService<IMultisiteContext>().GetDataItem(item), Sitecore.DependencyInjection.ServiceLocator.ServiceProvider.GetService<ILocalDatasourceService>().GetPageDataItem(item) })
