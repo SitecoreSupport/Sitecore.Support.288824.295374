@@ -7,6 +7,7 @@
   using Microsoft.Extensions.DependencyInjection;
   using Sitecore.ContentSearch;
   using Sitecore.ContentSearch.ComputedFields;
+  using Sitecore.Data;
   using Sitecore.Data.Comparers;
   using Sitecore.Data.Items;
   using Sitecore.StringExtensions;
@@ -20,6 +21,8 @@
   {
 
     private readonly MediaItemContentExtractor _mediaContentExtractor;
+    readonly ID SnippetItemTemplateId = new ID("{2B35E65C-137A-4641-B683-D223CA7CFAC0}"); 
+
     public AggregatedContent()
     {
       _mediaContentExtractor = new MediaItemContentExtractor();
@@ -80,7 +83,7 @@
             var unique = GetUnique(items[k].Children, items);
             items.AddRange(unique);
           }
-          else if (CompositeTemplateIds.Any(templateId => items[k].Template.DoesTemplateInheritFrom(templateId)))
+          else if ((CompositeTemplateIds.Any(templateId => items[k].Template.DoesTemplateInheritFrom(templateId))) || items[k].DoesItemInheritFrom(SnippetItemTemplateId))
           {
             var unique = GetUnique(GetLayoutReferences(items[k], dataFolders), items);
             items.AddRange(unique);
